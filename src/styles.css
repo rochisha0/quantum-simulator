@@ -1,0 +1,47 @@
+.app {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+.circuit {
+  display: flex;
+  justify-content: space-around;
+  width: 300px;
+  border: 1px solid black;
+  padding: 10px;
+}
+
+.qubit {
+  width: 80px;
+  height: 80px;
+  border: 1px solid black;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  cursor: pointer;
+}
+
+.gate-container {
+  display: flex;
+  margin-top: 20px;
+}
+
+.gate {
+  width: 80px;
+  height: 40px;
+  background-color: lightblue;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 0 10px;
+  cursor: pointer;
+}
+
+.clear-btn {
+  margin-top: 20px;
+  padding: 10px;
+  background-color: lightgray;
+  border: none;
+  cursor: pointer;
+}
