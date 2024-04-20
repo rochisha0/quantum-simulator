@@ -6,7 +6,7 @@ import Output from './components/Output';
 import ClearButton from './components/ClearButton';
 
 function App() {
-  const [circuit, setCircuit] = useState(['', '', '']); 
+  const [circuit, setCircuit] = useState(['', '', '', '']); 
   const [outputState, setOutputState] = useState('');
 
   const handleDragStart = (e, gate) => {
@@ -78,7 +78,7 @@ function App() {
   };
 
   const clearCircuit = () => {
-    setCircuit(['', '', '']);
+    setCircuit(['', '', '', '']);
     setOutputState('');
   };
 
