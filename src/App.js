@@ -6,14 +6,18 @@ import Output from './components/Output';
 import ClearButton from './components/ClearButton';
 
 function App() {
-  const [circuit, setCircuit] = useState(['', '', '', '']); 
+  const [circuit, setCircuit] = useState(Array(10).fill('')); 
   const [outputState, setOutputState] = useState('');
+  const [circuit2, setCircuit2] = useState(Array(10).fill('')); 
+  const [outputState2, setOutputState2] = useState('');
+  const [circuit3, setCircuit3] = useState(Array(10).fill('')); 
+  const [outputState3, setOutputState3] = useState('');
 
   const handleDragStart = (e, gate) => {
     e.dataTransfer.setData('text/plain', gate);
   };
 
-  const handleDrop = (e, index) => {
+  const handleDrop = (e, index, circuit, setCircuit, simulateCircuit) => {
     e.preventDefault();
     const gate = e.dataTransfer.getData('text/plain');
     const updatedCircuit = [...circuit];
@@ -22,14 +26,10 @@ function App() {
     simulateCircuit(updatedCircuit);
   };
 
-  const handleDragOver = (e) => {
-    e.preventDefault();
-  };
-
-  const simulateCircuit = (circuit) => {
+  const simulateCircuit = (circuit, setOutput) => {
     let stateVector = [1, 0]; // Initial state vector |0⟩
 
-    circuit.forEach((gate, index) => {
+    circuit.forEach((gate) => {
       if (gate === 'H') {
         stateVector = applyHadamardGate(stateVector);
       } else if (gate === 'X') {
@@ -39,7 +39,7 @@ function App() {
       }
     });
 
-    setOutputState(formatStateVector(stateVector));
+    setOutput(formatStateVector(stateVector));
   };
 
   const applyHadamardGate = (stateVector) => {
@@ -78,16 +78,30 @@ function App() {
   };
 
   const clearCircuit = () => {
-    setCircuit(['', '', '', '']);
+    setCircuit(Array(10).fill(''));
     setOutputState('');
+    setCircuit2(Array(10).fill(''));
+    setOutputState2('');
+    setCircuit3(Array(10).fill(''));
+    setOutputState3('');
   };
 
   return (
     <div className="app">
       <Circuit
         circuit={circuit}
-        onDragOver={handleDragOver}
-        onDrop={handleDrop}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e, index) => handleDrop(e, index, circuit, setCircuit, (c) => simulateCircuit(c, setOutputState))}
+      />
+      <Circuit
+        circuit={circuit2}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e, index) => handleDrop(e, index, circuit2, setCircuit2, (c) => simulateCircuit(c, setOutputState2))}
+      />
+      <Circuit
+        circuit={circuit3}
+        onDragOver={(e) => e.preventDefault()}
+        onDrop={(e, index) => handleDrop(e, index, circuit3, setCircuit3, (c) => simulateCircuit(c, setOutputState3))}
       />
       <div className="gate-container">
         <Gate type="H" onDragStart={handleDragStart} />
@@ -95,6 +109,8 @@ function App() {
         <Gate type="Z" onDragStart={handleDragStart} />
       </div>
       <Output outputState={outputState} />
+      <Output outputState={outputState2} />
+      <Output outputState={outputState3} />
       <ClearButton onClick={clearCircuit} />
     </div>
   );
